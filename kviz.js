@@ -1,56 +1,66 @@
 let kviz = document.querySelector('.kviz');
+let aktualniOtazka = 0;
 
 const poleOtazky = [
 {
     otazka: 'Co je ikonická hračka z 80. let?',
     foto: 'obrazky/moncicak.jpg',
-    odpovědi: ['Kočičák','Mončičák','Opičák'],
-    indexSpravneOdpovedi: 1
+    odpovedi: ['Kočičák','Mončičák','Opičák'],
+    indexSpravneOdpovedi: 1,
+    zadanaOdpoved: null
 },
 {
     otazka: 'Jaké má Andy oblíbené jídlo?',
     foto: 'obrazky/ovoce.jpg',
-    odpovědi: ['Kokos','Jahoda','Ani jedna z možností'],
-    indexSpravneOdpovedi: 2
+    odpovedi: ['Kokos','Jahoda','Ani jedna z možností'],
+    indexSpravneOdpovedi: 2,
+    zadanaOdpoved: null
 },
 {
     otazka: 'Co pijou Češi nejčastěji?',
     foto: 'obrazky/pivo.jpg',
-    odpovědi: ['Pivo','Čaj','Džus'],
-    indexSpravneOdpovedi: 1
+    odpovedi: ['Pivo','Čaj','Džus'],
+    indexSpravneOdpovedi: 0,
+    zadanaOdpoved: null
 }
 ];
 
 function zobrazOtazku(cisloOtazky) {
-    let otazka = document.querySelector('ul');
+    let moznosti = document.querySelector('ul');
     const vsechnyLiPrvky = document.querySelectorAll('li');
 
     vsechnyLiPrvky.forEach((li) => {
-        otazka.removeChild(li);
-    }
+        moznosti.removeChild(li);
+        }
     )
 
-    document.getElementById('poradi').innerText = (cisloOtazky+1) + "/" + poleOtazky.length;
+    document.getElementById('poradi').innerText = (cisloOtazky + 1) + "/" + poleOtazky.length;
     document.getElementById('otazka').innerText = poleOtazky[cisloOtazky].otazka;
     document.getElementById('obrazek').src = poleOtazky[cisloOtazky].foto;
 
-   
-    let novaOtazka1 = document.createElement('li');
-    let novaOtazka2 = document.createElement('li');
-    let novaOtazka3 = document.createElement('li');
-
-    novaOtazka1.innerHTML = poleOtazky[cisloOtazky].odpovědi[0];
-    novaOtazka2.innerHTML = poleOtazky[cisloOtazky].odpovědi[1];
-    novaOtazka3.innerHTML = poleOtazky[cisloOtazky].odpovědi[2];
-
-    novaOtazka1.dataset.odpoved = "0";
-    novaOtazka2.dataset.odpoved = "1";
-    novaOtazka3.dataset.odpoved = "2";
-
-    otazka.appendChild(novaOtazka1);
-    otazka.appendChild(novaOtazka2);
-    otazka.appendChild(novaOtazka3);
+   vygenerujMoznosti(moznosti,poleOtazky[cisloOtazky].odpovedi);
 }
 
-zobrazOtazku(0);
-zobrazOtazku(1);
+function vygenerujMoznosti(rodic,odpovedi) {
+    for (i = 0; i < odpovedi.length; i++) {
+        let novaOtazka = document.createElement('li');
+
+        novaOtazka.innerHTML = odpovedi[i];
+        novaOtazka.dataset.odpoved = i.toString();
+        novaOtazka.addEventListener('click', dalsiOtazka);
+
+        rodic.appendChild(novaOtazka);
+    }   
+}
+
+function dalsiOtazka(udalost) {
+    let odpoved = udalost.target;
+    poleOtazky[aktualniOtazka].zadanaOdpoved = odpoved.dataset.odpoved;
+    console.log(poleOtazky[aktualniOtazka].zadanaOdpoved == poleOtazky[aktualniOtazka].indexSpravneOdpovedi);
+    if (aktualniOtazka < poleOtazky.length - 1) {
+        aktualniOtazka++;
+        zobrazOtazku(aktualniOtazka);
+    }
+}
+
+zobrazOtazku(aktualniOtazka);
