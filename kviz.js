@@ -21,20 +21,36 @@ const poleOtazky = [
 }
 ];
 
-for (let i = 0; i < 1; i++) { 
-    document.getElementById('poradi').innerText = (i+1) + "/" + poleOtazky.length;
-    document.getElementById('otazka').innerText = poleOtazky[0].otazka;
-    document.getElementById('obrazek').src = poleOtazky[0].foto;
-
-    
+function zobrazOtazku(cisloOtazky) {
     let otazka = document.querySelector('ul');
+    const vsechnyLiPrvky = document.querySelectorAll('li');
+
+    vsechnyLiPrvky.forEach((li) => {
+        otazka.removeChild(li);
+    }
+    )
+
+    document.getElementById('poradi').innerText = (cisloOtazky+1) + "/" + poleOtazky.length;
+    document.getElementById('otazka').innerText = poleOtazky[cisloOtazky].otazka;
+    document.getElementById('obrazek').src = poleOtazky[cisloOtazky].foto;
+
+   
     let novaOtazka1 = document.createElement('li');
     let novaOtazka2 = document.createElement('li');
     let novaOtazka3 = document.createElement('li');
-    novaOtazka1.innerHTML = poleOtazky[0].odpovědi[0];
-    novaOtazka2.innerHTML = poleOtazky[0].odpovědi[1];
-    novaOtazka3.innerHTML = poleOtazky[0].odpovědi[2];
+
+    novaOtazka1.innerHTML = poleOtazky[cisloOtazky].odpovědi[0];
+    novaOtazka2.innerHTML = poleOtazky[cisloOtazky].odpovědi[1];
+    novaOtazka3.innerHTML = poleOtazky[cisloOtazky].odpovědi[2];
+
+    novaOtazka1.dataset.odpoved = "0";
+    novaOtazka2.dataset.odpoved = "1";
+    novaOtazka3.dataset.odpoved = "2";
+
     otazka.appendChild(novaOtazka1);
     otazka.appendChild(novaOtazka2);
     otazka.appendChild(novaOtazka3);
 }
+
+zobrazOtazku(0);
+zobrazOtazku(1);
