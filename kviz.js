@@ -56,7 +56,7 @@ function vygenerujMoznosti(rodic,odpovedi) {
 function dalsiOtazka(udalost) {
     let odpoved = udalost.target;
     poleOtazky[aktualniOtazka].zadanaOdpoved = parseInt(odpoved.dataset.odpoved);
-    console.log(poleOtazky[aktualniOtazka].zadanaOdpoved == poleOtazky[aktualniOtazka].indexSpravneOdpovedi);
+   
     if (aktualniOtazka < poleOtazky.length - 1) {
         aktualniOtazka++;
         zobrazOtazku(aktualniOtazka);
@@ -82,6 +82,7 @@ function hodnoceni(rodic) {
         let indexSpravneOdpovedi = poleOtazky[i].indexSpravneOdpovedi;
         
         hodnoceniTvojeOdpoved.innerHTML = textOdpoved + poleOtazky[i].odpovedi[indexTvojeOdpoved];
+        
         if (indexTvojeOdpoved === indexSpravneOdpovedi) {
             hodnoceniSpravnaOdpoved.innerHTML = "To je správná odpověď.";
             pocetSpravnychOdpovedi++;
@@ -91,16 +92,17 @@ function hodnoceni(rodic) {
         }
 
         hodnoceniOtazka.innerHTML = (i+1) + ". " + poleOtazky[i].otazka;
+
         rodic.appendChild(hodnoceniOtazka);
         rodic.appendChild(hodnoceniTvojeOdpoved);
         rodic.appendChild(hodnoceniSpravnaOdpoved);
-
     }
 
     let vysledneHodnoceni = document.createElement('h2');
     vysledneHodnoceni.innerHTML = "Správně " + pocetSpravnychOdpovedi + " ze " + poleOtazky.length + " otázek. Úspěšnost " + Math.round(((pocetSpravnychOdpovedi/poleOtazky.length)*100)) + " %."
     rodic.appendChild(vysledneHodnoceni);
 }
+
 zobrazOtazku(aktualniOtazka);
 
 
