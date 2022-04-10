@@ -55,12 +55,48 @@ function vygenerujMoznosti(rodic,odpovedi) {
 
 function dalsiOtazka(udalost) {
     let odpoved = udalost.target;
-    poleOtazky[aktualniOtazka].zadanaOdpoved = odpoved.dataset.odpoved;
+    poleOtazky[aktualniOtazka].zadanaOdpoved = parseInt(odpoved.dataset.odpoved);
     console.log(poleOtazky[aktualniOtazka].zadanaOdpoved == poleOtazky[aktualniOtazka].indexSpravneOdpovedi);
     if (aktualniOtazka < poleOtazky.length - 1) {
         aktualniOtazka++;
         zobrazOtazku(aktualniOtazka);
     }
+    else {
+        document.querySelector('.kviz').style.display='none';
+        let divVysledek = document.querySelector('.vysledek');
+        divVysledek.style.display='block';
+        hodnoceni(divVysledek);
+    }
 }
 
+function hodnoceni(rodic) {
+    for (i = 0; i < poleOtazky.length; i++) {
+        let hodnoceniOtazka = document.createElement('h3');
+        let hodnoceniTvojeOdpoved = document.createElement('p');
+        let hodnoceniSpravnaOdpoved = document.createElement('p');
+        let indexTvojeOdpoved = poleOtazky[i].zadanaOdpoved;
+        let indexSpravneOdpovedi = poleOtazky[i].indexSpravneOdpovedi;
+        let textOdpoved = "Tvoje odpověď: "; 
+        let textSpravnaOdpoved = "Správná odpověď: ";
+
+
+        hodnoceniTvojeOdpoved.innerHTML = textOdpoved + poleOtazky[i].odpovedi[indexTvojeOdpoved];
+        if (indexTvojeOdpoved === indexSpravneOdpovedi) {
+            hodnoceniSpravnaOdpoved.innerHTML = "To je správná odpověď.";
+        }
+        else {
+            hodnoceniSpravnaOdpoved.innerHTML = textSpravnaOdpoved + poleOtazky[i].odpovedi[indexSpravneOdpovedi];
+        }
+
+
+
+        hodnoceniOtazka.innerHTML = (i+1) + ". " + poleOtazky[i].otazka;
+        rodic.appendChild(hodnoceniOtazka);
+        rodic.appendChild(hodnoceniTvojeOdpoved);
+        rodic.appendChild(hodnoceniSpravnaOdpoved);
+
+    }
+}
 zobrazOtazku(aktualniOtazka);
+
+
