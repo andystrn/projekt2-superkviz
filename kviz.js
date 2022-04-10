@@ -70,25 +70,25 @@ function dalsiOtazka(udalost) {
 }
 
 function hodnoceni(rodic) {
+    let textOdpoved = "Tvoje odpověď: "; 
+    let textSpravnaOdpoved = "Správná odpověď: ";
+    let pocetSpravnychOdpovedi = 0;
+
     for (i = 0; i < poleOtazky.length; i++) {
         let hodnoceniOtazka = document.createElement('h3');
         let hodnoceniTvojeOdpoved = document.createElement('p');
         let hodnoceniSpravnaOdpoved = document.createElement('p');
         let indexTvojeOdpoved = poleOtazky[i].zadanaOdpoved;
         let indexSpravneOdpovedi = poleOtazky[i].indexSpravneOdpovedi;
-        let textOdpoved = "Tvoje odpověď: "; 
-        let textSpravnaOdpoved = "Správná odpověď: ";
-
-
+        
         hodnoceniTvojeOdpoved.innerHTML = textOdpoved + poleOtazky[i].odpovedi[indexTvojeOdpoved];
         if (indexTvojeOdpoved === indexSpravneOdpovedi) {
             hodnoceniSpravnaOdpoved.innerHTML = "To je správná odpověď.";
+            pocetSpravnychOdpovedi++;
         }
         else {
             hodnoceniSpravnaOdpoved.innerHTML = textSpravnaOdpoved + poleOtazky[i].odpovedi[indexSpravneOdpovedi];
         }
-
-
 
         hodnoceniOtazka.innerHTML = (i+1) + ". " + poleOtazky[i].otazka;
         rodic.appendChild(hodnoceniOtazka);
@@ -96,6 +96,10 @@ function hodnoceni(rodic) {
         rodic.appendChild(hodnoceniSpravnaOdpoved);
 
     }
+
+    let vysledneHodnoceni = document.createElement('h2');
+    vysledneHodnoceni.innerHTML = "Správně " + pocetSpravnychOdpovedi + " ze " + poleOtazky.length + " otázek. Úspěšnost " + Math.round(((pocetSpravnychOdpovedi/poleOtazky.length)*100)) + " %."
+    rodic.appendChild(vysledneHodnoceni);
 }
 zobrazOtazku(aktualniOtazka);
 
